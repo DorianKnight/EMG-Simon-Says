@@ -19,29 +19,44 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  output_led_sequence(sequence_array, array_len);
+  int mode = 2;
+  output_led_sequence(sequence_array, sizeof(sequence_array)/sizeof(int), mode);
 }
 
 
 
-void output_led_sequence(int *sequence_array, int array_len) {
-  for (int i=0; i<array_len; i++){
-    desired_led = sequence_array[i];
-    switch (desired_led) {
-      case 0:  // Left bicep
-        illuminate_led(left_bicep_led);
-        break;
-      case 1:  // Right bicep
-        illuminate_led(right_bicep_led);
-        break;
-      case 2:  // Left calf
-        illuminate_led(left_calf_led);
-        break;
-      case 3:  // Right calf
-        illuminate_led(right_calf_led);
-        break;
-      default:
-        Serial.println("Default :)");
+void output_led_sequence(int sequence_array[], int array_len, int mode) {
+  // Mode 0: Indicate that the user was correct in their input sequence
+  // Mode 1: Indicate that the user was incorrect in their input sequence
+  // Other: Output the randomized LED sequence sent from main function
+  
+  if (mode == 0) {
+    output_result(left_bicep_led);
+  }
+
+  else if (mode == 1) {
+    output_result(right_bicep_led);
+  }
+
+  else {
+    for (int i=0; i<array_len; i++){
+      desired_led = sequence_array[i];
+      switch (desired_led) {
+        case 0:  // Left bicep
+          illuminate_led(left_bicep_led);
+          break;
+        case 1:  // Right bicep
+          illuminate_led(right_bicep_led);
+          break;
+        case 2:  // Left calf
+          illuminate_led(left_calf_led);
+          break;
+        case 3:  // Right calf
+          illuminate_led(right_calf_led);
+          break;
+        default:
+          Serial.println("Default :)");
+      }
     }
   }
 }
@@ -51,4 +66,13 @@ void illuminate_led(int led_pin){
   delay(1000);
   digitalWrite(led_pin, LOW);
   delay(20);
+}
+
+void output_result(int led_pin){
+  for (int i=0; i<10; i++){
+    digitalWrite(led_pin, HIGH);
+    delay(100);
+    digitalWrite(led_pin, LOW);
+    delay(100);
+  }
 }
