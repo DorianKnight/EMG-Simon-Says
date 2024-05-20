@@ -1,3 +1,7 @@
+// Author: Dorian Knight
+// Date: May 5th 2024
+// Description: Blocking call to read active muscle
+
 float left_bicep_emg_raw;
 float right_bicep_emg_raw;
 float left_calf_emg_raw;
