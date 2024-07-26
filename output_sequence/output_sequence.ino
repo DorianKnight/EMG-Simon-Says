@@ -4,7 +4,8 @@ int left_calf_led = PD4;
 int right_calf_led = PD5;
 int desired_led;
 int array_len = 4;
-int sequence_array[4] = {0,3,1,2};
+String sequence_array = "0312";
+int char_offset = 48; // Subtract 48 when converting from char to int
 
 void setup() {
   // put your setup code here, to run once:
@@ -20,12 +21,12 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   int mode = 2;
-  output_led_sequence(sequence_array, sizeof(sequence_array)/sizeof(int), mode);
+  output_led_sequence(sequence_array, mode);
 }
 
 
 
-void output_led_sequence(int sequence_array[], int array_len, int mode) {
+void output_led_sequence(String sequence_array, int mode) {
   // Mode 0: Indicate that the user was correct in their input sequence
   // Mode 1: Indicate that the user was incorrect in their input sequence
   // Other: Output the randomized LED sequence sent from main function
@@ -39,8 +40,8 @@ void output_led_sequence(int sequence_array[], int array_len, int mode) {
   }
 
   else {
-    for (int i=0; i<array_len; i++){
-      desired_led = sequence_array[i];
+    for (int i=0; i<sequence_array.length(); i++){
+      desired_led = (int)sequence_array.charAt(i) - 48;
       switch (desired_led) {
         case 0:  // Left bicep
           illuminate_led(left_bicep_led);
@@ -55,7 +56,8 @@ void output_led_sequence(int sequence_array[], int array_len, int mode) {
           illuminate_led(right_calf_led);
           break;
         default:
-          Serial.println("Default :)");
+          Serial.print("Default: desired LED: ");
+          Serial.println(desired_led);
       }
     }
   }
