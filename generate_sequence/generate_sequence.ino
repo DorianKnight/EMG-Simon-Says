@@ -1,49 +1,23 @@
-int sequence_array[4];
-int array_len = 4;
-// int* array;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
 }
 
+String sequence = "";
 void loop() {
-  // put your main code here, to run repeatedly:
-  // if (array_len == 0) {
-  //   array = initiate_sequence();
-  // }
-  // else {
-  //   array = add_on_sequence(array, array_len);
-  // }  
-  int* array = initiate_sequence();
-  for (int i=0; i<array_len; i++) {
-    Serial.print(array[i]);
-    // Serial.println(*(array+i));
-  }
-  int* newArray = add_on_sequence(array, array_len);
-  for (int i=0; i<array_len; i++) {
-    Serial.print(newArray[i]);
-    // Serial.println(*(array+i));
-  }
-  Serial.println(array_len);
-  Serial.println("\n\n");
-  delay(6000);
+  sequence = generate_string_sequence(sequence);
 }
 
-int* initiate_sequence() {
-  for (int i=0; i<4; i++) {
-    sequence_array[i] = random(4);
-  }
-  array_len = 4;
-  return sequence_array;
+String generate_string_sequence(String prev_sequence) {
+  String new_number = (String)random(4);
+  String new_sequence = prev_sequence + new_number;
+  return new_sequence;
 }
 
-int* add_on_sequence(int sequence_array[], int array_len) {
-  int new_sequence_array[array_len+1];
-  for (int i=0; i<array_len; i++) {
-    new_sequence_array[i] = sequence_array[i];
+void test_read_sequence(String sequence){
+  for (int i=0; i<sequence.length(); i++){
+    Serial.print("Charater: ");
+    Serial.println(sequence.charAt(i));
   }
-  new_sequence_array[array_len] = random(4);
-  array_len = array_len + 1;
-  return new_sequence_array;
 }
