@@ -8,7 +8,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  bool user_correct = compare_user_to_sequence(example_user_input, example_sequence);
+  bool response_check = compare_user_to_sequence(example_user_input, example_sequence);
   Serial.print("User is correct: ");
   Serial.println(user_correct);
 }
